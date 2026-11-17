@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A 45-minute beginner-friendly GIS and JavaScript workshop for HacktoberFest HackDay, October 24, 2026. Presented by Flavio Herrera, GIS Center, UC Merced.">
+    <meta name="color-scheme" content="light dark">
+    <title>
+      Build an Interactive Campus Map with JavaScript | GIS Workshops · UC Merced
+    </title>
+    <script src="../../assets/theme.js">
+    </script>
+    <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../../assets/site.css">
+    <script src="../../assets/site.js" defer>
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="site-header">
+      <div class="container navbar">
+        <a class="brand" href="../../index.html">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/>
+              <path d="M9 3v15m6-12v15"/>
+            </svg>
+          </span>
+          <span>
+            GIS Workshops
+            <small>
+              UC Merced · Community learning
+            </small>
+          </span>
+        </a>
+        <nav id="main-nav" class="nav-links" aria-label="Main navigation">
+          <a href="../../index.html" >
+            Home
+          </a>
+          <a href="../../workshops/index.html" >
+            Workshops
+          </a>
+          <a href="https://ucmercedhub.com">
+            UCM Hub
+            <span aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch color theme">
+          ☾ Dark
+        </button>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+          Menu
+        </button>
+      </div>
+    </header>
+    <main id="main" class="container" tabindex="-1">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">
+          Home
+        </a>
+        <span aria-hidden="true">
+          /
+        </span>
+        <a href="../index.html">
+          Workshops
+        </a>
+        <span aria-hidden="true">
+          /
+        </span>
+        <span aria-current="page">
+          HacktoberFest
+        </span>
+      </nav>
+      <section class="hero compact">
+        <div class="eyebrow">
+          HacktoberFest HackDay · October 24, 2026
+        </div>
+        <h1>
+          Build an Interactive
+          <br>
+          Campus Map
+          <span>
+            with JavaScript.
+          </span>
+        </h1>
+        <p class="lead">
+          Turn campus tree data into a map you can explore. Learn the essentials of GIS, follow the code, and add a place that means something to you.
+        </p>
+        <div class="actions">
+          <a class="button" href="tutorials/tree_map/index.html">
+            Open Tree Map Tutorial
+            <span aria-hidden="true">
+              →
+            </span>
+          </a>
+          <a class="button secondary" href="tutorials/tree_map/completed/index.html">
+            Open Completed Map ↗
+          </a>
+        </div>
+        <div class="meta">
+          <span>
+            45 minutes
+          </span>
+          <span>
+            Basic HTML + JavaScript
+          </span>
+          <span>
+            No GIS experience needed
+          </span>
+        </div>
+        <p class="small" style="margin-top:18px">
+          Presented by
+          <strong>
+            Flavio Herrera
+          </strong>
+          · GIS Center, UC Merced
+        </p>
+      </section>
+      <div class="page-layout">
+        <aside class="toc">
+          <nav aria-label="On this page">
+            <strong>
+              On this page
+            </strong>
+            <a href="#intro">
+              Meet GIS
+            </a>
+            <a href="#applications">
+              See what’s possible
+            </a>
+            <a href="#fundamentals">
+              Learn the building blocks
+            </a>
+            <a href="#setup">
+              Open the starter
+            </a>
+            <a href="#walkthrough">
+              Read the map’s code
+            </a>
+            <a href="#customize">
+              Make it yours
+            </a>
+            <a href="#resources">
+              Share
+              &
+              keep exploring
+            </a>
+          </nav>
+        </aside>
+        <div class="article">
+          <div class="card intro-panel">
+            <h2>
+              Your goal for the next 45 minutes
+            </h2>
+            <p>
+              Identify the parts of a web map, find them in the code, and add a campus location with a descriptive popup. Bring a laptop, Wi-Fi, a modern browser, and a code editor.
+            </p>
+            <ol class="agenda">
+              <li>
+                <time>
+                  0–3 min
+                </time>
+                <div>
+                  <a href="#intro">
+                    Meet GIS →
+                  </a>
+                  <small>
+                    A working map and the questions it can answer.
+                  </small>
+                </div>
+              </li>
+              <li>
+                <time>
+                  3–7 min
+                </time>
+                <div>
+                  <a href="#applications">
+                    See what’s possible →
+                  </a>
+                  <small>
+                    GIS programming, digital twins, and GeoAI.
+                  </small>
+                </div>
+              </li>
+              <li>
+                <time>
+                  7–13 min
+                </time>
+                <div>
+                  <a href="#fundamentals">
+                    Learn the building blocks →
+                  </a>
+                  <small>
+                    Geometry, layers, coordinates, and endpoints.
+                  </small>
+                </div>
+              </li>
+              <li>
+                <time>
+                  13–18 min
+                </time>
+                <div>
+                  <a href="#setup">
+                    Open the starter →
+                  </a>
+                  <small>
+                    Download, serve locally, and find campus.
+                  </small>
+                </div>
+              </li>
+              <li>
+                <time>
+                  18–28 min
+                </time>
+                <div>
+                  <a href="#walkthrough">
+                    Read the map’s code →
+                  </a>
+                  <small>
+                    Follow the data from a CSV to a popup.
+                  </small>
+                </div>
+              </li>
+              <li>
+                <time>
+                  28–40 min
+                </time>
+                <div>
+                  <a href="#customize">
+                    Make it yours →
+                  </a>
+                  <small>
+                    Add a campus point with a descriptive popup.
+                  </small>
+                </div>
+              </li>
+              <li>
+                <time>
+                  40–45 min
+                </time>
+                <div>
+                  <a href="#resources">
+                    Share
+                    &
+                    keep exploring →
+                  </a>
+                  <small>
+                    Questions, project ideas, and next steps.
+                  </small>
+                </div>
+              </li>
+            </ol>
+          </div>
+          <section id="intro">
+            <div class="time">
+              0–3 minutes · Watch
+              &
+              explore
+            </div>
+            <h2>
+              Start with a question about a place.
+            </h2>
+            <p>
+              A
+              <strong>
+                geographic information system (GIS)
+              </strong>
+              connects locations with information so we can explore patterns and relationships. Which trees grow near a building? Where are restaurants? How does shade move across campus?
+            </p>
+            <p>
+              GIS grew from mapmaking and spatial analysis into digital systems for storing, analyzing, and sharing location data. Today, a web browser can be the front door to that information.
+              <a href="https://www.esri.com/en-us/what-is-gis/overview">
+                Esri’s introduction to GIS ↗
+              </a>
+            </p>
+            <div class="callout">
+              <strong>
+                Live demonstration · Try a tree
+              </strong>
+              <p>
+                <a href="tutorials/tree_map/completed/index.html">
+                  Open the completed campus map
+                </a>
+                . Drag to pan, zoom in, and click a green tree symbol. Notice how a location and a row of data become one interactive feature.
+              </p>
+            </div>
+            <figure class="card example-main">
+              <img src="sample_maps/tree_diversity.png" width="2112" height="1632" alt="UC Merced aerial map with a tree-diversity surface; a highlighted area is labeled with 15 unique species within 28 meters." loading="lazy">
+              <figcaption>
+                <strong>
+                  One dataset, many questions.
+                </strong>
+                This existing analysis illustrates nearby tree diversity. Today’s tutorial builds a point map of the tree records, rather than reproducing this analysis.
+              </figcaption>
+            </figure>
+          </section>
+          <section id="applications">
+            <div class="time">
+              3–7 minutes · Find your inspiration
+            </div>
+            <h2>
+              What can you do with GIS?
+            </h2>
+            <p>
+              Combine location data with programming, imagery, and analysis to build tools people can use.
+            </p>
+            <h3>
+              GIS programming: from records to a useful tool
+            </h3>
+            <p>
+              A map application combines geometry, data, and interaction. This Merced food map brings restaurant locations and metrics into an explorable interface: the same layer-and-popup pattern we’ll use today.
+            </p>
+            <figure class="card example-main" style="margin-top:22px">
+              <a href="https://food.ucmercedhub.com">
+                <img src="sample_maps/food.ucmercedhub.com_layout.png" width="1583" height="1224" alt="Merced restaurant map with search and filters, restaurant markers, and a restaurant details popup." loading="lazy">
+              </a>
+              <figcaption>
+                <strong>
+                  Featured example · Merced food map
+                </strong>
+                Location search, restaurant metrics, and clickable results.
+                <a href="https://food.ucmercedhub.com">
+                  Explore food.ucmercedhub.com ↗
+                </a>
+              </figcaption>
+            </figure>
+            <div class="grid-2 figure-grid">
+              <figure class="card example-small">
+                <img src="sample_maps/building_shadow.webp" width="1280" height="991" alt="Campus building-shadow visualization illustrating a spatial application of buildings and shade." loading="lazy">
+                <figcaption>
+                  <strong>
+                    Buildings, sun, and shade
+                  </strong>
+                  Spatial modeling can help us ask where building shadows fall.
+                </figcaption>
+              </figure>
+              <figure class="card example-small">
+                <img src="sample_maps/ucm_hub_ios_app.png" width="1334" height="963" alt="UCM Hub iPhone app preview showing a mobile campus map and location-based information." loading="lazy">
+                <figcaption>
+                  <strong>
+                    GIS on the go
+                  </strong>
+                  Campus maps can put location-based information in a mobile interface.
+                </figcaption>
+              </figure>
+            </div>
+            <h3>
+              Digital twins: a place, represented digitally
+            </h3>
+            <p>
+              A digital twin is a digital representation connected to information about a real place or system. It can support questions about buildings, infrastructure, and change over time. See
+              <a href="https://www.esri.com/en-us/digital-twin/overview">
+                Esri’s digital-twin overview
+              </a>
+              .
+            </p>
+            <p>
+              The GIS Center’s SSI project,
+              <strong>
+                “Exploring Machine Learning-Assisted UAS Mapping for a Campus Digital Twin,”
+              </strong>
+              is an effort exploring campus digital-twin workflows using uncrewed aircraft system (UAS) mapping.
+            </p>
+            <details>
+              <summary>
+                Optional · Where Gaussian splatting fits
+              </summary>
+              <p>
+                <strong>
+                  3D Gaussian splatting
+                </strong>
+                represents a scene using many small, overlapping 3D Gaussian primitives, optimized from images to render novel views. Think of it as one approach to viewing a captured place from new angles. A visual reconstruction alone is not a complete digital twin, and compatibility depends on the tools and workflow.
+                <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">
+                  Read the original research and see examples ↗
+                </a>
+              </p>
+            </details>
+            <h3>
+              GeoAI: learning from location and imagery
+            </h3>
+            <p>
+              GeoAI brings AI methods to geographic problems. Examples include detecting individual trees, extracting building footprints, or classifying image pixels into land-cover categories. Models need suitable training data, evaluation, and human review; a prediction is not a verified observation.
+            </p>
+            <details>
+              <summary>
+                Optional · Four Esri deep learning tools to know
+              </summary>
+              <ul>
+                <li>
+                  <strong>
+                    Export Training Data For Deep Learning
+                  </strong>
+                  prepares labeled training samples.
+                </li>
+                <li>
+                  <strong>
+                    Train Deep Learning Model
+                  </strong>
+                  fits a model to training data.
+                </li>
+                <li>
+                  <strong>
+                    Detect Objects Using Deep Learning
+                  </strong>
+                  locates objects such as trees or buildings in imagery.
+                </li>
+                <li>
+                  <strong>
+                    Classify Pixels Using Deep Learning
+                  </strong>
+                  assigns classes to image pixels.
+                </li>
+              </ul>
+              <p>
+                These are further-learning tools with their own software, license, and environment requirements. We won’t run them in this browser workshop.
+                <a href="https://doc.esri.com/en/arcgis-pro/latest/tool-reference/image-analyst/an-overview-of-the-deep-learning-toolset-in-image-analyst.html">
+                  Official Esri toolset overview ↗
+                </a>
+              </p>
+            </details>
+          </section>
+          <section id="fundamentals">
+            <div class="time">
+              7–13 minutes · The building blocks
+            </div>
+            <h2>
+              Every map has a few familiar parts.
+            </h2>
+            <dl class="term-grid">
+              <div class="term">
+                <dt>
+                  Point
+                </dt>
+                <dd>
+                  One location, like a tree or your favorite campus meeting spot.
+                </dd>
+              </div>
+              <div class="term">
+                <dt>
+                  Line
+                </dt>
+                <dd>
+                  A connected path, like a walkway or a bus route.
+                </dd>
+              </div>
+              <div class="term">
+                <dt>
+                  Polygon
+                </dt>
+                <dd>
+                  A closed area, like a building footprint or campus boundary.
+                </dd>
+              </div>
+              <div class="term">
+                <dt>
+                  Layer
+                </dt>
+                <dd>
+                  A collection of related features. Our tree records make one layer.
+                </dd>
+              </div>
+              <div class="term">
+                <dt>
+                  Basemap
+                </dt>
+                <dd>
+                  The background context: streets, buildings, and place names.
+                </dd>
+              </div>
+              <div class="term">
+                <dt>
+                  Coordinates
+                </dt>
+                <dd>
+                  Numbers that locate geometry in a coordinate system.
+                </dd>
+              </div>
+            </dl>
+            <p>
+              Our CSV stores
+              <strong>
+                WGS 84 latitude and longitude in decimal degrees
+              </strong>
+              . At UC Merced, latitude is around
+              <code>
+                37.36
+              </code>
+              and longitude is around
+              <code>
+                -120.42
+              </code>
+              . In a map’s center array, use
+              <code>
+                [longitude, latitude]
+              </code>
+              .
+            </p>
+            <div class="callout">
+              <strong>
+                A URL can mean two different things.
+              </strong>
+              <p>
+                A
+                <strong>
+                  CSV URL
+                </strong>
+                points to a downloadable table.
+                <code>
+                  CSVLayer
+                </code>
+                fetches that file and builds point features in the browser. An
+                <strong>
+                  ArcGIS service endpoint
+                </strong>
+                , such as a URL ending in
+                <code>
+                  /FeatureServer/0
+                </code>
+                , is an API for a layer that can answer queries. Today, trees come from a CSV; the background comes from an Esri map service.
+              </p>
+            </div>
+            <p class="small">
+              Go deeper:
+              <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">
+                Spatial references
+              </a>
+              ·
+              <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">
+                CSVLayer
+              </a>
+              ·
+              <a href="https://developers.arcgis.com/rest/services-reference/enterprise/feature-service/">
+                Feature services
+              </a>
+            </p>
+          </section>
+          <section id="setup">
+            <div class="time">
+              13–18 minutes · Get your map running
+            </div>
+            <h2>
+              Open the starter project.
+            </h2>
+            <p>
+              Download and extract the workshop files, open them in your editor, and serve the folder locally. The tutorial includes the exact commands and a ready-to-use starter map.
+            </p>
+            <div class="actions">
+              <a class="button" href="tutorials/tree_map/index.html">Open Tree Map Tutorial →</a>
+              <a class="button secondary" href="tutorials/tree_map/downloads/campus-tree-map-starter.zip" download>
+                Download Starter Files (ZIP) ↓
+              </a>
+              <a class="button secondary" href="tutorials/tree_map/index.html#setup">
+                Setup instructions →
+              </a>
+            </div>
+            <div class="callout">
+              <strong>
+                Just a browser, an editor, and a local server.
+              </strong>
+              <p>
+                No ArcGIS Pro installation, account, API key, or build system is needed for this example. Internet access is required for the ArcGIS SDK and public basemap service. If local setup gets in the way,
+                <a href="tutorials/tree_map/completed/index.html">
+                  use the browser-based completed map
+                </a>
+                to follow along.
+              </p>
+            </div>
+          </section>
+          <section id="walkthrough">
+            <div class="time">
+              18–28 minutes · Follow the code
+            </div>
+            <h2>
+              From a CSV row to a clickable tree.
+            </h2>
+            <ol>
+              <li>
+                <strong>
+                  Create a map and a view.
+                </strong>
+                The map holds layers; the view draws them and handles interaction.
+              </li>
+              <li>
+                <strong>
+                  Set campus coordinates.
+                </strong>
+                Longitude first, then latitude.
+              </li>
+              <li>
+                <strong>
+                  Load the CSV.
+                </strong>
+                Tell
+                <code>
+                  CSVLayer
+                </code>
+                which fields contain coordinates.
+              </li>
+              <li>
+                <strong>
+                  Style the trees.
+                </strong>
+                A renderer turns each record into a green circle.
+              </li>
+              <li>
+                <strong>
+                  Add a popup.
+                </strong>
+                Actual CSV fields supply the attributes and the tree photo; missing photos get a readable fallback.
+              </li>
+            </ol>
+            <div class="actions">
+              <a class="button" href="tutorials/tree_map/index.html">
+                Open Tree Map Tutorial →
+              </a>
+            </div>
+            <p class="small" style="margin-top:18px">
+              The tutorial’s short snippets match the starter’s TODO comments. Copy one block, save, refresh, and check the result before moving on.
+            </p>
+          </section>
+          <section id="customize">
+            <div class="time">
+              28–40 minutes · Your turn
+            </div>
+            <h2>
+              Add a place that tells a story.
+            </h2>
+            <div class="callout success">
+              <strong>
+                Required exercise · A campus point + descriptive popup
+              </strong>
+              <p>
+                Pick a campus spot, add a point graphic, and write a popup explaining what the place is and why someone might visit. Give it a symbol that is easy to distinguish from the trees.
+              </p>
+            </div>
+            <p>
+              Start with the tutorial’s clearly labeled example point, then change its coordinates, title, and description. Check that your popup appears when you click the marker.
+            </p>
+            <div class="actions">
+              <a class="button" href="tutorials/tree_map/index.html">Open Tree Map Tutorial →</a>
+              <a class="button secondary" href="tutorials/tree_map/index.html#your-point">
+                Build your campus point →
+              </a>
+            </div>
+            <details>
+              <summary>
+                Optional · Choose another small change
+              </summary>
+              <ul>
+                <li>
+                  Change the tree symbol’s color or size.
+                </li>
+                <li>
+                  Switch between the supplied public topographic and imagery basemaps.
+                </li>
+                <li>
+                  Try a polyline for a walking route or a polygon for a gathering area, using the
+                  <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">
+                    Graphic reference
+                  </a>
+                  .
+                </li>
+              </ul>
+            </details>
+          </section>
+          <section id="resources">
+            <div class="time">
+              40–45 minutes · Share
+              &
+              ask questions
+            </div>
+            <h2>
+              Where will you take it next?
+            </h2>
+            <p>
+              Show a neighbor your campus point. What did you change? What other dataset would make the map more useful? Consider an accessibility guide, a campus event map, or a habitat observation project.
+            </p>
+            <div class="lesson-grid">
+              <article class="card">
+                <h3>
+                  Keep coding
+                </h3>
+                <p>
+                  <a href="https://developers.arcgis.com/javascript/latest/">
+                    ArcGIS Maps SDK for JavaScript
+                  </a>
+                  <br>
+                  <a href="https://developers.arcgis.com/javascript/latest/sample-code/layers-csv/">
+                    Official CSVLayer sample
+                  </a>
+                  <br>
+                  <a href="https://github.com/herreraflavio/giscenter.ucmercedhub.com">
+                    This workshop’s source repository
+                  </a>
+                </p>
+              </article>
+              <article class="card">
+                <h3>
+                  Get campus support
+                </h3>
+                <p>
+                  <a href="https://library.ucmerced.edu/gis">
+                    GIS Center
+                  </a>
+                  <br>
+                  <a href="https://library.ucmerced.edu/giscontacts">
+                    Contact GIS staff
+                  </a>
+                  <br>
+                  <a href="https://libguides.ucmerced.edu/GIS-Center">
+                    GIS learning guide
+                  </a>
+                </p>
+              </article>
+            </div>
+            <details>
+              <summary>
+                Optional further learning · ArcGIS Online
+                &amp;
+                ArcGIS Pro
+              </summary>
+              <p>
+                Explore
+                <a href="https://ucmerced.maps.arcgis.com/">
+                  UC Merced ArcGIS Online
+                </a>
+                for campus GIS workflows. If you want desktop analysis later, use the Library’s
+                <a href="https://libguides.ucmerced.edu/GIS-Center/ArcGIS-Pro">
+                  ArcGIS Pro installation and access guide
+                </a>
+                . Campus account access has its own requirements. ArcGIS Pro is optional and is not a prerequisite for today’s browser workshop.
+              </p>
+            </details>
+            <p class="small" style="margin-top:22px">
+              Workshop agenda:
+              <a href="../../workshop_proposal.pdf">
+                original proposal (PDF)
+              </a>
+              . Campus project description supplied by the workshop presenter.
+            </p>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h2>
+              Learn by mapping.
+            </h2>
+            <p>
+              Workshop materials by Flavio Herrera
+              <br>
+              GIS Center, UC Merced
+            </p>
+            <p>
+              Questions?
+              <a href="mailto:giscenter@ucmerced.edu">
+                giscenter@ucmerced.edu
+              </a>
+              <br>
+              Kolligian Library · KL 330
+              <br>
+              <a href="https://library.ucmerced.edu/giscontacts">
+                GIS Center contacts
+                &amp;
+                support ↗
+              </a>
+            </p>
+          </div>
+          <div>
+            <h2>
+              Official UC Merced resources
+            </h2>
+            <div class="footer-links">
+              <a href="https://library.ucmerced.edu/">
+                UC Merced Library ↗
+              </a>
+              <a href="https://library.ucmerced.edu/gis">
+                GIS Center ↗
+              </a>
+              <a href="https://libguides.ucmerced.edu/GIS-Center">
+                GIS learning guide ↗
+              </a>
+              <a href="https://ucmerced.maps.arcgis.com/">
+                UC Merced ArcGIS Online ↗
+              </a>
+            </div>
+          </div>
+          <div>
+            <h2>
+              Keep exploring
+            </h2>
+            <div class="footer-links">
+              <a href="../../workshops/index.html">
+                All workshops
+              </a>
+              <a href="../../workshops/hactoberfest/tutorials/tree_map/index.html">
+                Tree-map tutorial
+              </a>
+              <a href="https://ucmercedhub.com">
+                UC Merced Hub ↗
+              </a>
+              <a href="https://github.com/herreraflavio/giscenter.ucmercedhub.com">
+                Source on GitHub ↗
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>
+            © 2026 Flavio Herrera. Workshop materials; respective owners retain rights to maps, data, and SDK assets.
+          </span>
+          <span>
+            Community workshop site on UCM Hub · Official Library resources linked above.
+          </span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Build a UC Merced tree map with actual CSV data, the ArcGIS Maps SDK, and a campus point with a descriptive popup. Includes a starter download and completed example.">
+    <meta name="color-scheme" content="light dark">
+    <title>
+      Campus tree-map tutorial | GIS Workshops · UC Merced
+    </title>
+    <script src="../../../../assets/theme.js">
+    </script>
+    <link rel="icon" href="../../../../assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../../../../assets/site.css">
+    <script src="../../../../assets/site.js" defer>
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="site-header">
+      <div class="container navbar">
+        <a class="brand" href="../../../../index.html">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/>
+              <path d="M9 3v15m6-12v15"/>
+            </svg>
+          </span>
+          <span>
+            GIS Workshops
+            <small>
+              UC Merced · Community learning
+            </small>
+          </span>
+        </a>
+        <nav id="main-nav" class="nav-links" aria-label="Main navigation">
+          <a href="../../../../index.html" >
+            Home
+          </a>
+          <a href="../../../../workshops/index.html" >
+            Workshops
+          </a>
+          <a href="https://ucmercedhub.com">
+            UCM Hub
+            <span aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch color theme">
+          ☾ Dark
+        </button>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+          Menu
+        </button>
+      </div>
+    </header>
+    <main id="main" class="container" tabindex="-1">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../../../index.html">
+          Home
+        </a>
+        <span aria-hidden="true">
+          /
+        </span>
+        <a href="../../../index.html">
+          Workshops
+        </a>
+        <span aria-hidden="true">
+          /
+        </span>
+        <a href="../../index.html">
+          HacktoberFest
+        </a>
+        <span aria-hidden="true">
+          /
+        </span>
+        <span aria-current="page">
+          Tree-map tutorial
+        </span>
+      </nav>
+      <section class="hero compact">
+        <div class="eyebrow">
+          Hands-on tutorial · ArcGIS Maps SDK for JavaScript
+        </div>
+        <h1>
+          Put campus trees
+          <br>
+          <span>
+            on the map.
+          </span>
+        </h1>
+        <p class="lead">
+          A CSV, some JavaScript, and 2,131 reasons to explore. Build an interactive tree map, then add a campus point of your own.
+        </p>
+        <div class="actions">
+          <a class="button" href="downloads/campus-tree-map-starter.zip" download>
+            Download Starter Files (ZIP) ↓
+          </a>
+          <a class="button secondary" href="completed/index.html">
+            Open Completed Map ↗
+          </a>
+        </div>
+        <div class="meta">
+          <span>
+            27 minutes of guided building
+          </span>
+          <span>
+            No account or API key
+          </span>
+          <span>
+            HTML · CSS · JavaScript
+          </span>
+        </div>
+      </section>
+      <div class="page-layout">
+        <aside class="toc">
+          <nav aria-label="On this page">
+            <strong>
+              On this page
+            </strong>
+            <a href="#setup">
+              01 · Open the starter
+            </a>
+            <a href="#map-setup">
+              02 · Set up the map
+            </a>
+            <a href="#coordinates">
+              03 · Read coordinates
+            </a>
+            <a href="#dataset">
+              04 · Load the trees
+            </a>
+            <a href="#symbols">
+              05 · Style
+              &
+              add popups
+            </a>
+            <a href="#your-point">
+              06 · Add your point
+            </a>
+            <a href="#troubleshooting">
+              Help
+              &
+              next steps
+            </a>
+          </nav>
+        </aside>
+        <div class="article">
+          <div class="card intro-panel">
+            <h2>
+              What you’ll make
+            </h2>
+            <p>
+              A pannable, zoomable campus map with green tree symbols and popups containing botanical names, tree IDs, campus locations, and photos from the CSV’s photolink field. Your final addition: a blue campus point with a description.
+            </p>
+            <div class="inline-links">
+              <a href="starter/index.html">
+                Run the starter ↗
+              </a>
+              <a href="completed/index.html">
+                Browser fallback: completed map ↗
+              </a>
+              <a href="https://github.com/herreraflavio/giscenter.ucmercedhub.com">
+                Source on GitHub ↗
+              </a>
+            </div>
+          </div>
+          <section id="setup">
+            <div class="time">
+              Workshop minutes 13–18 · About 5 minutes
+            </div>
+            <h2>
+              <span class="step-number">
+                1
+              </span>
+              Open the starter.
+            </h2>
+            <ol>
+              <li>
+                <a href="downloads/campus-tree-map-starter.zip" download>
+                  Download the starter ZIP
+                </a>
+                and extract it. Open the extracted
+                <code>
+                  campus-tree-map
+                </code>
+                folder in your editor.
+              </li>
+              <li>
+                In a terminal, change into that folder. Start a local server using one of the commands below.
+              </li>
+              <li>
+                Open
+                <a href="http://localhost:8000/workshops/hactoberfest/tutorials/tree_map/starter/">
+                  http://localhost:8000/workshops/hactoberfest/tutorials/tree_map/starter/
+                </a>
+                in your browser.
+              </li>
+              <li>
+                Open
+                <code>
+                  workshops/hactoberfest/tutorials/tree_map/starter/app.js
+                </code>
+                in your editor. Keep this tutorial beside it.
+              </li>
+            </ol>
+            <div class="code-block">
+              <div class="code-heading">
+                <span>
+                  Terminal · Windows with Python installed
+                </span>
+                <button class="copy-button" type="button" aria-label="Copy Terminal · Windows with Python installed" aria-live="polite">
+                  Copy code
+                </button>
+              </div>
+              <pre><code>py -m http.server 8000</code></pre>
+            </div>
+            <div class="code-block">
+              <div class="code-heading">
+                <span>
+                  Terminal · macOS / Linux with Python 3 installed
+                </span>
+                <button class="copy-button" type="button" aria-label="Copy Terminal · macOS / Linux with Python 3 installed" aria-live="polite">
+                  Copy code
+                </button>
+              </div>
+              <pre><code>python3 -m http.server 8000</code></pre>
+            </div>
+            <p class="small">
+              An editor’s static server, such as VS Code Live Server, also works. Serve the extracted root folder and open the same starter path on its port. This website has no build or package installation step.
+            </p>
+            <div class="callout success">
+              <strong>
+                Checkpoint
+              </strong>
+              <p>
+                You see only the shared target-map caption and a pannable, zoomable basemap. The starter has no trees or blue point yet; you will add them below. If you open the HTML with
+                <code>
+                  file://
+                </code>
+                , the browser may block the CSV request: use a local server.
+              </p>
+            </div>
+            <details>
+              <summary>
+                Optional · Use the GitHub repository instead
+              </summary>
+              <p>
+                <a href="https://github.com/herreraflavio/giscenter.ucmercedhub.com">
+                  Open the source repository
+                </a>
+                and choose Code → Download ZIP, or clone it using Git. Run the local server from the repository root. The bundled starter ZIP works independently of whether the newest workshop changes have been pushed to GitHub.
+              </p>
+            </details>
+            <div class="callout">
+              <strong>
+                Local setup blocked? Keep following along.
+              </strong>
+              <p>
+                <a href="completed/index.html">
+                  Open the completed map on this site
+                </a>
+                as the hosted fallback. Read the
+                <a href="completed/app.js">
+                  completed JavaScript
+                </a>
+                alongside the steps. The SDK and basemap still require internet access.
+              </p>
+            </div>
+          </section>
+          <section id="map-setup">
+  <div class="time">Workshop minutes 18–20 · About 2 minutes</div>
+  <h2><span class="step-number">2</span>Find the map and the view.</h2>
+  <p>Each runnable example has just <code>index.html</code> and <code>app.js</code>. The HTML includes a short caption, the map container, the ArcGIS SDK, and a few sizing rules. It has no workshop navigation, site theme, toolbar, or shared site dependencies.</p>
+  <p><strong>Already included:</strong> this is the starter’s complete HTML. You do not need to paste it again. The caption describes the target map; the starter initially shows only a basemap.</p>
+<div class="code-block" data-snippet="html">
+  <div class="code-heading"><span>index.html · Already included in the starter</span><button class="copy-button" type="button" aria-label="Copy index.html · Already included in the starter" aria-live="polite">Copy code</button></div>
+  <pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;Campus tree map — starter&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://js.arcgis.com/4.34/esri/themes/light/main.css&quot;&gt;
+  &lt;style&gt;
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; flex-direction: column; }
+    header { padding: 12px 16px; font: 16px/1.5 system-ui, sans-serif; color: #172b47; background: #fff; }
+    #viewDiv { flex: 1; min-height: 0; }
+    #viewDiv .tree-photo { display: block; width: 100%; max-height: 240px; object-fit: contain; }
+  &lt;/style&gt;
+  &lt;script src=&quot;https://js.arcgis.com/4.34/&quot; defer&gt;&lt;/script&gt;
+  &lt;script src=&quot;app.js&quot; defer&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;Explore 2,131 tree records. Pan, zoom, and select a green circle to see its attributes. The blue diamond is an example campus point.&lt;/header&gt;
+  &lt;main id=&quot;viewDiv&quot; aria-label=&quot;Interactive UC Merced campus map&quot;&gt;&lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+  <p><strong>Already included:</strong> find this map-setup block near the top of <code>starter/app.js</code>. <code>Map</code> holds layers; <code>MapView</code> draws them and handles interaction.</p>
+<div class="code-block" data-snippet="setup">
+  <div class="code-heading"><span>app.js · Already included: map setup</span><button class="copy-button" type="button" aria-label="Copy app.js · Already included: map setup" aria-live="polite">Copy code</button></div>
+  <pre><code>// Map setup: the map holds layers; the view draws them.
+const map = new Map({ basemap: &quot;topo&quot; });
+const view = new MapView({
+  container: &quot;viewDiv&quot;,
+  map: map,
+  center: [-120.425, 37.364], // [longitude, latitude]
+  zoom: 16
+});</code></pre>
+</div>
+  <p>The starter imports <code>Map</code>, <code>MapView</code>, <code>CSVLayer</code>, and <code>Graphic</code> in its <code>require(...)</code> callback. <strong>Student additions:</strong> replace TODO 2, 3, 4, and 5 in order, inside that callback. Leave the existing setup and final <code>});</code> in place. The completed example has all four additions implemented.</p>
+  <div class="callout success"><strong>Checkpoint</strong><p>Change <code>zoom: 16</code> to <code>zoom: 17</code>, save, and refresh. You should be closer to campus. Set it back to 16 before continuing.</p></div>
+  <details><summary>Reuse these files for your own map</summary><p>Copy an example’s <code>index.html</code> and <code>app.js</code>, and keep the CSV at <code>../datasets/tree_locations.csv</code> relative to the HTML page. If you move the CSV beside the HTML instead, change the layer URL to <code>tree_locations.csv</code>. No files from the website’s <code>assets</code> folder are required. Both examples deliberately use the SDK’s light UI so they work independently of the workshop theme.</p></details>
+  <p class="small">Reference: <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> · <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>. These examples intentionally use SDK 4.34; current SDK examples may use newer component syntax.</p>
+</section>
+          <section id="coordinates">
+            <div class="time">
+              Workshop minutes 20–22 · About 2 minutes
+            </div>
+            <h2>
+              <span class="step-number">
+                3
+              </span>
+              Read the coordinates.
+            </h2>
+            <p>
+              Open
+              <a href="datasets/tree_locations.csv">
+                datasets/tree_locations.csv
+              </a>
+              . Each row is a tree record. The file contains
+              <strong>
+                2,131 records
+              </strong>
+              , with no missing coordinate values. Its coordinate columns are exactly
+              <code>
+                Latitude
+              </code>
+              and
+              <code>
+                Longitude
+              </code>
+              , including capitals.
+            </p>
+            <div class="data-table">
+              <table>
+                <caption class="visually-hidden">
+                  Actual fields and sample values from the first tree record
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      CSV field
+                    </th>
+                    <th scope="col">
+                      First record
+                    </th>
+                    <th scope="col">
+                      Meaning
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <code>
+                        Latitude
+                      </code>
+                    </td>
+                    <td>
+                      37.36681747
+                    </td>
+                    <td>
+                      North / south, decimal degrees
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>
+                        Longitude
+                      </code>
+                    </td>
+                    <td>
+                      -120.42025757
+                    </td>
+                    <td>
+                      East / west, decimal degrees
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>
+                        botanical
+                      </code>
+                    </td>
+                    <td>
+                      Fraxinus velutina 'Modesto'
+                    </td>
+                    <td>
+                      Botanical name
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>
+                        tree_id
+                      </code>
+                    </td>
+                    <td>
+                      1239
+                    </td>
+                    <td>
+                      Tree identifier
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>
+                        location
+                      </code>
+                    </td>
+                    <td>
+                      Facilities Services A
+                    </td>
+                    <td>
+                      Campus location
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>
+                        area
+                      </code>
+                    </td>
+                    <td>
+                      Street Tree
+                    </td>
+                    <td>
+                      Planting context
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>
+                        num_of_tru
+                      </code>
+                    </td>
+                    <td>
+                      1
+                    </td>
+                    <td>
+                      Number of trunks
+                    </td>
+                  </tr>
+                <tr><td><code>photolink</code></td><td>HTTPS image URL, or blank</td><td>Tree photograph; 25 records have whitespace-only values</td></tr>
+</tbody>
+              </table>
+            </div>
+            <div class="callout">
+              <strong>
+                Longitude first in coordinate arrays.
+              </strong>
+              <p>
+                <code>
+                  [-120.425, 37.364]
+                </code>
+                puts the view near UC Merced. Reversing those values sends it somewhere else or makes the coordinate invalid.
+              </p>
+            </div>
+            <details>
+              <summary>
+                Optional · Coordinate-system and attribute notes
+              </summary>
+              <p>
+                The accompanying export metadata records
+                <code>
+                  CalculateGeometryAttributes
+                </code>
+                computing
+                <code>
+                  Longitude POINT_X
+                </code>
+                and
+                <code>
+                  Latitude POINT_Y
+                </code>
+                in
+                <strong>
+                  WGS 84 (EPSG:4326), decimal degrees
+                </strong>
+                . Those are the columns used by CSVLayer. An older State Plane California III / feet reference (EPSG:2227) in the metadata describes the source geometry, not these exported coordinate values.
+              </p>
+              <p>
+                Latitude ranges from 37.35994339 to 37.36805725; longitude from -120.43215179 to -120.41806030. The photo URL is in <code>photolink</code>. There are 2,106 HTTPS photo URLs and 25 whitespace-only values. Other columns are
+                <code>
+                  point_id
+                </code>
+                ,
+                <code>
+                  source_glo
+                </code>
+                ,
+                <code>
+                  featuretyp
+                </code>
+                ,
+                <code>
+                  species_id
+                </code>
+                ,
+                <code>
+                  status
+                </code>
+                ,
+                and
+                <code>
+                  F_
+                </code>
+                . No status-code dictionary is included, so we do not interpret those codes or filter the records by status. The workshop data is a supplied snapshot, not a claim about the current inventory.
+              </p>
+              <p>
+                <a href="datasets/tree_locations.csv.xml">
+                  View export metadata
+                </a>
+                ·
+                <a href="datasets/schema.ini">
+                  View field schema
+                </a>
+              </p>
+            </details>
+            <div class="callout success">
+              <strong>
+                Checkpoint
+              </strong>
+              <p>
+                Locate the first row’s botanical name and its two coordinate values. Identify which one is longitude before writing any geometry.
+              </p>
+            </div>
+            <p class="small">
+              <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html">
+                Esri: spatial references and coordinate systems ↗
+              </a>
+            </p>
+          </section>
+          <section id="dataset">
+            <div class="time">
+              Workshop minutes 22–25 · About 3 minutes
+            </div>
+            <h2>
+              <span class="step-number">
+                4
+              </span>
+              Load the trees.
+            </h2>
+            <p>
+              Replace the
+              <code>
+                TODO 2
+              </code>
+              comment in
+              <code>
+                starter/app.js
+              </code>
+              with this block. The URL is relative to the starter page; the CSV stays in the sibling
+              <code>
+                datasets
+              </code>
+              folder.
+            </p>
+            <div class="code-block">
+              <div class="code-heading">
+                <span>
+                  app.js · Replace TODO 2
+                </span>
+                <button class="copy-button" type="button" aria-label="Copy app.js · Replace TODO 2" aria-live="polite">
+                  Copy code
+                </button>
+              </div>
+              <pre><code>// Load the CSV using its actual coordinate field names.
+const trees = new CSVLayer({
+  url: &quot;../datasets/tree_locations.csv&quot;,
+  latitudeField: &quot;Latitude&quot;,
+  longitudeField: &quot;Longitude&quot;,
+  title: &quot;UC Merced trees&quot;
+});
+map.add(trees);</code></pre>
+            </div>
+            <div class="callout success">
+              <strong>
+                Checkpoint
+              </strong>
+              <p>
+                Save and refresh. Tree points now appear over campus with the SDK’s default symbols. Their styling and popup details come next.
+              </p>
+            </div>
+            <h3>
+              A file URL and a service endpoint
+            </h3>
+            <p>
+              Our CSV URL returns a table. CSVLayer reads its coordinates and creates the points in your browser. A
+              <strong>
+                service endpoint
+              </strong>
+              accepts API requests; a feature service layer ending in
+              <code>
+                /FeatureServer/0
+              </code>
+              can support queries, filtering, and other server operations.
+            </p>
+            <p>
+              For a real endpoint in this project,
+              <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer?f=pjson">
+                inspect the public topographic MapServer metadata
+              </a>
+              . This tiled map service supplies the basemap, not the tree attributes.
+            </p>
+            <p class="small">
+              Read more:
+              <a href="https://developers.arcgis.com/javascript/latest/sample-code/layers-csv/">
+                Official CSVLayer sample
+              </a>
+              ·
+              <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">
+                CSVLayer reference
+              </a>
+              . A CSV on another domain must allow CORS; our same-origin file avoids that extra setup.
+            </p>
+          </section>
+          <section id="symbols">
+  <div class="time">Workshop minutes 25–28 · About 3 minutes</div>
+  <h2><span class="step-number">5</span>Style trees and add photo popups.</h2>
+  <p><strong>Student addition:</strong> replace <code>TODO 3</code> in <code>starter/app.js</code> with this renderer. It applies the same symbol to every tree.</p>
+<div class="code-block" data-snippet="symbols">
+  <div class="code-heading"><span>app.js · Replace TODO 3</span><button class="copy-button" type="button" aria-label="Copy app.js · Replace TODO 3" aria-live="polite">Copy code</button></div>
+  <pre><code>// Draw each tree as a green circle with a white outline.
+trees.renderer = {
+  type: &quot;simple&quot;,
+  symbol: {
+    type: &quot;simple-marker&quot;,
+    color: &quot;#278256&quot;,
+    size: 7,
+    outline: { color: &quot;#ffffff&quot;, width: 0.7 }
+  }
+};</code></pre>
+</div>
+  <p><strong>Student addition:</strong> replace <code>TODO 4</code> with the entire popup block below. The title uses <code>{botanical}</code>, the field table shows attributes, and custom content displays the image stored in <code>photolink</code>.</p>
+<div class="code-block" data-snippet="popup">
+  <div class="code-heading"><span>app.js · Replace TODO 4</span><button class="copy-button" type="button" aria-label="Copy app.js · Replace TODO 4" aria-live="polite">Copy code</button></div>
+  <pre><code>// Show tree attributes and the image URL stored in photolink.
+trees.popupTemplate = {
+  title: &quot;{botanical}&quot;,
+  outFields: [&quot;*&quot;],
+  content: [
+    {
+      type: &quot;fields&quot;,
+      fieldInfos: [
+        { fieldName: &quot;tree_id&quot;, label: &quot;Tree ID&quot; },
+        { fieldName: &quot;location&quot;, label: &quot;Campus location&quot; },
+        { fieldName: &quot;area&quot;, label: &quot;Area / planting context&quot; },
+        { fieldName: &quot;num_of_tru&quot;, label: &quot;Number of trunks&quot; }
+      ]
+    },
+    {
+      type: &quot;custom&quot;,
+      outFields: [&quot;photolink&quot;, &quot;botanical&quot;, &quot;tree_id&quot;],
+      creator: function (event) {
+        const attributes = event.graphic.attributes;
+        const url = String(attributes.photolink || &quot;&quot;).trim();
+        const unavailable = document.createElement(&quot;p&quot;);
+        unavailable.textContent = &quot;Tree photo unavailable.&quot;;
+
+        // Blank or non-HTTP URLs get a readable fallback.
+        if (!/^https?:\/\//i.test(url)) return unavailable;
+
+        const image = document.createElement(&quot;img&quot;);
+        image.className = &quot;tree-photo&quot;;
+        image.alt = `Tree ${attributes.tree_id}: ${attributes.botanical}`;
+        image.addEventListener(&quot;error&quot;, function () {
+          image.replaceWith(unavailable);
+        });
+        image.src = url;
+        return image;
+      }
+    }
+  ]
+};</code></pre>
+</div>
+  <details><summary>How the photo and fallback work</summary><p><code>outFields</code> makes the attributes available to the popup. The photo callback reads <code>event.graphic.attributes.photolink</code> and trims whitespace. It creates an image with a descriptive alt text, rather than inserting data as HTML. Only HTTP or HTTPS URLs are accepted. Blank or invalid values immediately show “Tree photo unavailable.”; an image-load error replaces the image with the same message. The attribute table remains visible in every case.</p><p>The <code>#viewDiv .tree-photo</code> rule is already in both HTML files: images fit the popup’s width and are at most 240 pixels tall, with their aspect ratio preserved. Photo hosts need to be reachable over the network; no photos are bundled or invented.</p></details>
+  <div class="callout success"><strong>Checkpoint</strong><p>Save and refresh. Trees are green circles with white outlines. Click one: the popup shows its botanical name, tree ID, campus location, planting context, number of trunks, and its photo when available. A missing or broken photo shows “Tree photo unavailable.” while keeping the attributes readable.</p></div>
+  <p class="small">Reference: <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">SimpleRenderer</a> · <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> · <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-CustomContent.html">CustomContent</a>.</p>
+</section>
+          <section id="your-point">
+            <div class="time">
+              Workshop minutes 28–40 · About 12 minutes
+            </div>
+            <h2>
+              <span class="step-number">
+                6
+              </span>
+              Add your campus point.
+            </h2>
+            <p>
+              <strong>
+                This is the required student exercise.
+              </strong>
+              Choose a campus location and explain what it is, why it matters, or when someone should visit.
+            </p>
+            <ol>
+              <li>
+                Replace
+                <code>
+                  TODO 5
+                </code>
+                with the example below.
+              </li>
+              <li>
+                Start with the supplied approximate campus coordinates, then choose another point from the tree CSV as a nearby reference. Copy its <code>Longitude</code> and <code>Latitude</code> values into the named properties. Give your place an accurate description; avoid claiming a precise building entrance without checking its position.
+              </li>
+              <li>
+                Write your own title and descriptive popup. Use plain text in your code.
+              </li>
+              <li>
+                Save, refresh, and click the blue diamond to check your work.
+              </li>
+            </ol>
+            <div class="code-block">
+              <div class="code-heading">
+                <span>
+                  app.js · Replace TODO 5, then personalize it
+                </span>
+                <button class="copy-button" type="button" aria-label="Copy app.js · Replace TODO 5, then personalize it" aria-live="polite">
+                  Copy code
+                </button>
+              </div>
+              <pre><code>// Add an example campus point. Replace it with your own place.
+const campusPoint = new Graphic({
+  geometry: {
+    type: &quot;point&quot;,
+    longitude: -120.4241,
+    latitude: 37.3653
+  },
+  symbol: {
+    type: &quot;simple-marker&quot;,
+    style: &quot;diamond&quot;,
+    color: &quot;#245bd6&quot;,
+    size: 16,
+    outline: { color: &quot;white&quot;, width: 2 }
+  },
+  popupTemplate: {
+    title: &quot;My campus meeting spot&quot;,
+    content: &quot;An example meeting point near the campus core. &quot; +
+      &quot;Replace this with your place and explain why someone should visit.&quot;
+  }
+});
+view.graphics.add(campusPoint);</code></pre>
+            </div>
+            <div class="callout success">
+              <strong>
+                Your finish line
+              </strong>
+              <p>
+                Your map shows trees with attributes and photo popups, plus a distinct blue diamond for your campus point. Clicking your point opens a popup with your own location name and a useful description. Explain to a neighbor which code controls the position, symbol, and popup.
+              </p>
+            </div>
+            <details>
+              <summary>
+                Optional · Change a symbol, basemap, or geometry
+              </summary>
+              <ul>
+                <li>
+                  <strong>
+                    Symbol:
+                  </strong>
+                  try a different tree color or change
+                  <code>
+                    size: 7
+                  </code>
+                  to
+                  <code>
+                    size: 10
+                  </code>
+                  .
+                </li>
+                <li>
+                  <strong>
+                    Basemap:
+                  </strong>
+                  change
+                  <code>
+                    basemap: "topo"
+                  </code>
+                  to
+                  <code>
+                    basemap: "satellite"
+                  </code>
+                  . Both use public Esri raster services in this SDK version.
+                </li>
+                <li>
+                  <strong>
+                    Geometry:
+                  </strong>
+                  try adding a polyline for a walking route or a polygon for an outdoor gathering area. These need multiple coordinate pairs; see the
+                  <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">
+                    Graphic reference
+                  </a>
+                  .
+                </li>
+              </ul>
+            </details>
+            <div class="actions">
+              <a class="button" href="completed/index.html">
+                Compare with the completed map ↗
+              </a>
+              <a class="button secondary" href="completed/app.js">
+                Read completed app.js
+              </a>
+            </div>
+          </section>
+          <section id="troubleshooting">
+            <div class="time">
+              Help, access
+              &amp;
+              next steps
+            </div>
+            <h2>
+              Keep your map moving.
+            </h2>
+            <details>
+              <summary>
+                I see a blank map, or the trees never load.
+              </summary>
+              <ul>
+                <li>
+                  Use
+                  <code>
+                    http://localhost
+                  </code>
+                  instead of opening an HTML file directly.
+                </li>
+                <li>
+                  Check internet access to
+                  <code>
+                    js.arcgis.com
+                  </code>
+                  and
+                  <code>
+                    services.arcgisonline.com
+                  </code>
+                  . A school network or content blocker may block them.
+                </li>
+                <li>
+                  Keep
+                  <code>
+                    datasets
+                  </code>
+                  beside
+                  <code>
+                    starter
+                  </code>
+                  , and preserve the filename and capitalized coordinate fields.
+                </li>
+                <li>
+                  Put snippets inside the starter’s
+                  <code>
+                    require
+                  </code>
+                  callback in TODO order. Check your browser’s developer console for a missing comma, brace, or variable.
+                </li>
+                <li>
+                  If port 8000 is occupied, use
+                  <code>
+                    py -m http.server 8001
+                  </code>
+                  (or
+                  <code>
+                    python3
+                  </code>
+                  ) and open port 8001 instead.
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary>
+                Do I need credentials? What services are used?
+              </summary>
+              <p>
+                <strong>
+                  No credentials are required for the supplied example.
+                </strong>
+                It uses the pinned ArcGIS Maps SDK for JavaScript 4.34 CDN, the local CSV, and public Esri raster services:
+                <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">
+                  World Topographic Map
+                </a>
+                and
+                <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer">
+                  World Imagery
+                </a>
+                . Keep the SDK’s Esri and data-provider attribution visible.
+              </p>
+              <p>
+                These are distinct from authenticated ArcGIS location services. Switching to a basemap style such as
+                <code>
+                  arcgis/topographic
+                </code>
+                , a private layer, or another secured service may require an ArcGIS account, an API key, or OAuth and appropriate privileges. Follow that service’s access requirements; never put account passwords in your code. Service access and network availability can change.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Can I follow along without setting up a local server?
+              </summary>
+              <p>
+                Open the completed map using the links above to explore the trees in your browser. Read its JavaScript beside the tutorial to follow each step. To save and run your own code changes, download the starter and serve it locally when you are ready.
+              </p>
+            </details>
+            <details><summary>The tree attributes load, but the photo does not.</summary><p>Some records have no photo URL. Check <code>photolink</code> in the CSV: whitespace-only values show the fallback. A photo host may also be unavailable or blocked. The map will keep the attributes visible and show “Tree photo unavailable.” for an image-load error. Check your connection to the URL’s host; you do not need to change the tree coordinates.</p></details>
+            <h3>
+              Keep learning, with campus support
+            </h3>
+            <p>
+              <a href="https://developers.arcgis.com/javascript/latest/">
+                Explore the ArcGIS JavaScript SDK
+              </a>
+              , use the
+              <a href="https://libguides.ucmerced.edu/GIS-Center">
+                GIS LibGuide
+              </a>
+              , or
+              <a href="https://library.ucmerced.edu/giscontacts">
+                contact the GIS Center
+              </a>
+              for your next project.
+              <a href="https://ucmerced.maps.arcgis.com/">
+                UC Merced ArcGIS Online
+              </a>
+              and
+              <a href="https://libguides.ucmerced.edu/GIS-Center/ArcGIS-Pro">
+                ArcGIS Pro installation/access
+              </a>
+              are optional further-learning resources; no desktop GIS installation is needed here.
+            </p>
+            <div class="inline-links">
+              <a href="../../index.html#resources">
+                Back to workshop resources →
+              </a>
+              <a href="../../../index.html">
+                All workshops →
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h2>
+              Learn by mapping.
+            </h2>
+            <p>
+              Workshop materials by Flavio Herrera
+              <br>
+              GIS Center, UC Merced
+            </p>
+            <p>
+              Questions?
+              <a href="mailto:giscenter@ucmerced.edu">
+                giscenter@ucmerced.edu
+              </a>
+              <br>
+              Kolligian Library · KL 330
+              <br>
+              <a href="https://library.ucmerced.edu/giscontacts">
+                GIS Center contacts
+                &amp;
+                support ↗
+              </a>
+            </p>
+          </div>
+          <div>
+            <h2>
+              Official UC Merced resources
+            </h2>
+            <div class="footer-links">
+              <a href="https://library.ucmerced.edu/">
+                UC Merced Library ↗
+              </a>
+              <a href="https://library.ucmerced.edu/gis">
+                GIS Center ↗
+              </a>
+              <a href="https://libguides.ucmerced.edu/GIS-Center">
+                GIS learning guide ↗
+              </a>
+              <a href="https://ucmerced.maps.arcgis.com/">
+                UC Merced ArcGIS Online ↗
+              </a>
+            </div>
+          </div>
+          <div>
+            <h2>
+              Keep exploring
+            </h2>
+            <div class="footer-links">
+              <a href="../../../../workshops/index.html">
+                All workshops
+              </a>
+              <a href="../../../../workshops/hactoberfest/tutorials/tree_map/index.html">
+                Tree-map tutorial
+              </a>
+              <a href="https://ucmercedhub.com">
+                UC Merced Hub ↗
+              </a>
+              <a href="https://github.com/herreraflavio/giscenter.ucmercedhub.com">
+                Source on GitHub ↗
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>
+            © 2026 Flavio Herrera. Workshop materials; respective owners retain rights to maps, data, and SDK assets.
+          </span>
+          <span>
+            Community workshop site on UCM Hub · Official Library resources linked above.
+          </span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus tree map — completed</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.34/esri/themes/light/main.css">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; flex-direction: column; }
+    header { padding: 12px 16px; font: 16px/1.5 system-ui, sans-serif; color: #172b47; background: #fff; }
+    #viewDiv { flex: 1; min-height: 0; }
+    #viewDiv .tree-photo { display: block; width: 100%; max-height: 240px; object-fit: contain; }
+  </style>
+  <script src="https://js.arcgis.com/4.34/" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>Explore 2,131 tree records. Pan, zoom, and select a green circle to see its attributes. The blue diamond is an example campus point.</header>
+  <main id="viewDiv" aria-label="Interactive UC Merced campus map"></main>
+</body>
+</html>
